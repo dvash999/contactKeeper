@@ -2,14 +2,14 @@ const express = require('express');
 const auth = require('../middleware/auth');
 const { check, validationResult } = require('express-validator');
 
-const User = require('../models/User');
 const Contact = require('../models/Contact');
 
 const router = express.Router();
 
+const resHandler = require('../helpers/responseHandler');
+
 // TODO -> build middleware for validation
 // TODO -> build error handling
-// TODO -> build response handling
 
 // @route   GET api/contacts
 // @desc    Get all users contacts
@@ -21,7 +21,7 @@ router.get('/', auth, async (req, res) => {
     res.json(contacts);
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ msg: 'Server error' });
+    resHandler(res, 500, 'Server error');
   }
 });
 
@@ -32,12 +32,12 @@ router.get('/:id', auth, async (req, res) => {
   try {
     const contact = await Contact.findById(req.params.id);
 
-    if (!contact) return res.status(404).json({msg: 'Contact not found'});
+    if (!contact) return resHandler(res, 404, 'Contact not found');
 
     res.send(contact);
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ msg: 'Server error' });
+    resHandler(res, 500, 'Server error');
   }
 });
 
@@ -56,9 +56,9 @@ router.post(
   ],
   async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ error: error.array() });
-    }
+
+    if (!errors.isEmpty())
+      return resHandler(res, 400, { error: error.array() });
 
     const { name, email, phone, type } = req.body;
 
@@ -66,12 +66,11 @@ router.post(
       newContact = new Contact({ name, email, phone, type, user: req.user.id });
 
       await newContact.save();
-      res
-        .status(200)
-        .json({ msg: `New contact ${newContact.name} has been saved!` });
+
+      resHandler(res, 200, `New contact ${newContact.name} has been saved!`);
     } catch (err) {
       console.error(err);
-      res.status(500).json('Could not create new contact');
+      resHandler(res, 500, 'Server error');
     }
   }
 );
@@ -92,17 +91,16 @@ router.put(
   async (req, res) => {
     const errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
+    if (!errors.isEmpty())
+      return resHandler(res, 400, { error: error.array() });
+
     try {
       let contact = await Contact.findById(req.params.id);
 
-      if (!contact) return res.status(404).json({ msg: 'Contact not found' });
+      if (!contact) return resHandler(res, 400, 'Contact not found');
 
-      if (contact.user.toString() !== req.user.id) {
-        return res.status(401).json({ msg: 'Not authorized' });
-      }
+      if (contact.user.toString() !== req.user.id)
+        return resHandler(res, 401, 'Not authorized');
 
       await Contact.findByIdAndUpdate(
         req.params.id,
@@ -110,10 +108,10 @@ router.put(
         { new: true }
       );
 
-      res.status(200).json({ msg: `contact ${contact.name} has been updated` });
+      resHandler(res, 200, `contact ${contact.name} has been updated`);
     } catch (err) {
       console.error(err);
-      res.status(500).json('Could not update contact');
+      resHandler(res, 500, 'Server error');
     }
   }
 );
@@ -125,15 +123,14 @@ router.delete('/:id', auth, async (req, res) => {
   try {
     const contact = await Contact.findById(req.params.id);
 
-    if (!contact) return res.status(404).json({ msg: 'Contact not found' });
+    if (!contact) return resHandler(res, 404, 'Contact not found');
 
     contact.delete();
 
-    return res.status(200).json({ msg: 'contact has been deleted' });
-
+    return resHandler(res, 200, 'contact has been deleted');
   } catch (err) {
     console.error(err);
-    res.status(500).json('Could not update contact');
+    resHandler(res, 500, 'Server error');
   }
 });
 
