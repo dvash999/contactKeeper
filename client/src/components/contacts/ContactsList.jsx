@@ -5,21 +5,20 @@ import ContactItem from './ContactItem';
 const ContactsList = () => {
   const contactContext = useContext(ContactContext);
 
-  const { contacts, deleteContact, editContact } = contactContext;
+  const { contacts, deleteContact, editContact, filtered } = contactContext;
 
   const onDeleteContact = id => {
     deleteContact(id);
   };
 
   const onEditContact = contact => {
-    console.log(contact);
     editContact(contact);
   };
 
   return (
     <Fragment>
       <ul className='list-unstyled'>
-        {contacts.map(contact => (
+        {(filtered || contacts).map(contact => (
           <ContactItem
             key={contact.id}
             onEditContact={onEditContact}
