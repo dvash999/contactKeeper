@@ -11,10 +11,14 @@ const ContactForm = () => {
 
   const contactContext = useContext(ContactContext);
 
-  const { addContact, clearCurrentContact, updateContact, current } = contactContext;
+  const {
+    addContact,
+    clearCurrentContact,
+    updateContact,
+    current
+  } = contactContext;
 
   const { name, email, phone, type } = contact;
-
 
   useEffect(() => {
     if (current) setContact(current);
@@ -47,58 +51,62 @@ const ContactForm = () => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <div>
       <h2 className='text-primary'>
         {current ? 'Edit Contact' : 'Add Contact'}
       </h2>
-      <input
-        type='text'
-        placeholder='Name'
-        name='name'
-        value={name}
-        onChange={onChange}
-      />
-      <input
-        type='text'
-        placeholder='Email'
-        name='email'
-        value={email}
-        onChange={onChange}
-      />
-      <input
-        type='text'
-        placeholder='Phone'
-        name='phone'
-        value={phone}
-        onChange={onChange}
-      />
-      <div style={{ marginTop: '35px' }}>
-        <h5>Contact Type</h5>
-        <span style={{ marginRight: '20px' }}>
-          <input type='radio' name='type' value='personal' defaultChecked />
-          Personal
-        </span>
-
-        <span>
-          <input type='radio' name='type' value='professional' />
-          Professional
-        </span>
-      </div>
-      <div>
+      <form onSubmit={onSubmit}>
         <input
-          type='submit'
-          value={current || contact ? 'Save Contact' : 'Add Contact'}
-          className='btn btn-primary btn-block'
+          type='text'
+          placeholder='Name'
+          name='name'
+          value={name}
+          onChange={onChange}
         />
-      </div>
-      {current && (
-        <div>
-          <button onClick={onClearContact} className='btn btn-light btn-block'>
-            Clear Form
-          </button>
+        <input
+          type='text'
+          placeholder='Email'
+          name='email'
+          value={email}
+          onChange={onChange}
+        />
+        <input
+          type='text'
+          placeholder='Phone'
+          name='phone'
+          value={phone}
+          onChange={onChange}
+        />
+        <div style={{ marginTop: '35px' }}>
+          <h5>Contact Type</h5>
+          <span style={{ marginRight: '20px' }}>
+            <input type='radio' name='type' value='personal' defaultChecked />
+            Personal
+          </span>
+
+          <span>
+            <input type='radio' name='type' value='professional' />
+            Professional
+          </span>
         </div>
-      )}
-    </form>
+        <div>
+          <input
+            type='submit'
+            value={current || contact ? 'Save Contact' : 'Add Contact'}
+            className='btn btn-primary btn-block'
+          />
+        </div>
+        {current && (
+          <div>
+            <button
+              onClick={onClearContact}
+              className='btn btn-light btn-block'>
+              Clear Form
+            </button>
+          </div>
+        )}
+      </form>
+    </div>
   );
 };
 
