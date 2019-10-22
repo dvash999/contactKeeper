@@ -10,7 +10,7 @@ const Login = () => {
     console.log('onchange');
   };
 
-  const onSubmit = () => {
+  const onSubmit = (e) => {
     console.log('submit');
   };
 

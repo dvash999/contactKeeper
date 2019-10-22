@@ -21,7 +21,7 @@ const ContactsList = () => {
   return (
     <Fragment>
       <TransitionGroup>
-        <ul className='list-unstyled'>
+        <ul>
           {(filtered || contacts).map(contact => (
             <CSSTransition key={contact.id} timeout={500} classNames='item'>
               <ContactItem
