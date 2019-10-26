@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 
 const ContactItem = ({ contact, onDeleteContact, onEditContact }) => {
-  const { id, name, phone, email, type } = contact;
+  const { _id, name, phone, email, type } = contact;
 
   return (
     <Fragment>
@@ -32,7 +32,7 @@ const ContactItem = ({ contact, onDeleteContact, onEditContact }) => {
         </ul>
         <p>
           <button onClick={() => onEditContact(contact)}className='btn btn-dark btn-sm'>Edit</button>
-          <button onClick={() => onDeleteContact(id)} className='btn btn-danger btn-sm'>Delete</button>
+          <button onClick={() => onDeleteContact(_id)} className='btn btn-danger btn-sm'>Delete</button>
         </p>
       </div>
     </Fragment>

@@ -8,15 +8,13 @@ const router = express.Router();
 
 const resHandler = require('../helpers/responseHandler');
 
-// TODO -> build middleware for validation
-// TODO -> build error handling
-
 // @route   GET api/contacts
 // @desc    Get all users contacts
 // @access  Private
 router.get('/', auth, async (req, res) => {
   try {
     const contacts = await Contact.find({ user: req.user.id });
+    console.log(contacts)
 
     res.json(contacts);
   } catch (err) {
@@ -67,7 +65,7 @@ router.post(
 
       await newContact.save();
 
-      resHandler(res, 200, `New contact ${newContact.name} has been saved!`);
+      resHandler(res, 200, newContact);
     } catch (err) {
       console.error(err);
       resHandler(res, 500, 'Server error');
