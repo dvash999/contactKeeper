@@ -5,6 +5,8 @@ import ContactState from './components/context/contact/ContactState';
 import AuthState from './components/context/auth/AuthState';
 import AlertState from './components/context/alert/AlertState';
 
+import setAuthToken from './utils/setAuthToken';
+
 import Navbar from './components/layout/Navbar';
 import Home from './components/pages/Home';
 import About from './components/pages/About';
@@ -15,6 +17,10 @@ import Alerts from './components/alerts/Alerts';
 import './App.css';
 
 // import '../node_modules/bootstrap/dist/css/bootstrap.css';
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
 
 const App = () => {
   return (
