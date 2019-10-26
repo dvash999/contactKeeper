@@ -3,12 +3,13 @@ import {
   ADD_CONTACT,
   DELETE_CONTACT,
   EDIT_CONTACT,
+  CONTACT_ERROR,
   CLEAR_CURRENT_CONTACT,
   UPDATE_CONTACT,
   FILTER_CONTACT,
   CLEAR_FILTER,
   SET_ALERT,
-  REMOVE_ALERT
+  REMOVE_ALERT,
 } from '../types';
 
 export default (state, action) => {
@@ -29,7 +30,7 @@ export default (state, action) => {
       return {
         ...state,
         contacts: state.contacts.filter(
-          contact => contact.id !== action.payload
+          contact => contact._id !== action.payload
         )
       };
 
@@ -37,6 +38,13 @@ export default (state, action) => {
       return {
         ...state,
         current: action.payload
+      };
+
+      case CONTACT_ERROR: {
+        return {
+          ...state,
+          error: action.payload
+        }
       };
 
     case CLEAR_CURRENT_CONTACT:
