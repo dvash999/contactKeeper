@@ -2,7 +2,9 @@ import React, { useReducer } from 'react';
 import uuid from 'uuid';
 import ContactContext from './ContactContext';
 import contactReducer from './contactReducer';
+import axios from 'axios';
 import {
+  GET_CONTACTS,
   ADD_CONTACT,
   DELETE_CONTACT,
   EDIT_CONTACT,
@@ -44,6 +46,17 @@ const ContactState = props => {
   };
 
   const [state, dispatch] = useReducer(contactReducer, initialState);
+
+  // Get Contacts
+  const getContacts = async contacts => {
+    try {
+      const contacts = await axios.get('/api/contacts');
+      dispatch({type: GET_CONTACTS, payload: contacts})
+    } catch (err) {
+      dispatch({type: SET_ALERT})
+    }
+    
+  }
 
   // Add Contact
   const addContact = contact => {
@@ -93,7 +106,8 @@ const ContactState = props => {
         clearCurrentContact,
         updateContact,
         filterContacts,
-        clearFilter
+        clearFilter,
+        getContacts
       }}>
       {props.children}
     </ContactContext.Provider>

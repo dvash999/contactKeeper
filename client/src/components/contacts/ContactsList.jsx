@@ -20,7 +20,7 @@ const ContactsList = () => {
 
   return (
     <Fragment>
-      <TransitionGroup>
+      {/* <TransitionGroup> */}
         <ul>
           {(filtered || contacts).map(contact => (
             <CSSTransition key={contact.id} timeout={500} classNames='item'>
@@ -32,7 +32,7 @@ const ContactsList = () => {
             </CSSTransition>
           ))}
         </ul>
-      </TransitionGroup>
+      {/* </TransitionGroup> */}
     </Fragment>
   );
 };

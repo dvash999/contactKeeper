@@ -8,9 +8,6 @@ const router = express.Router();
 
 const resHandler = require('../helpers/responseHandler');
 
-// TODO -> build middleware for validation
-// TODO -> build error handling
-
 // @route   GET api/contacts
 // @desc    Get all users contacts
 // @access  Private

@@ -13,6 +13,7 @@ const auth = require('../middleware/auth');
 // @access  Private
 
 router.get('/', auth, async (req, res) => {
+
   try {
     const user = await User.findById(req.user.id).select('-password');
 
@@ -36,6 +37,8 @@ router.post(
   ],
 
   async (req, res) => {
+    console.log(req)
+
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
